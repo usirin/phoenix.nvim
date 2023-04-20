@@ -1,4 +1,6 @@
-# kickstart.nvim
+# phoenix.nvim
+
+a fork of kickstart.nvim that works with my style.
 
 ### Introduction
 
