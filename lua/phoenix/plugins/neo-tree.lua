@@ -24,6 +24,6 @@ return {
       }
     }
 
-    vim.keymap.set("n", "<leader>kb", ":Neotree<cr>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>kb", ":Neotree reveal_force_cwd<cr>", { noremap = true, silent = true })
   end,
 }
