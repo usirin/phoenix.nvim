@@ -256,7 +256,6 @@ vim.o.splitbelow = true
 vim.wo.cursorline = true
 vim.wo.signcolumn = "yes"
 vim.o.hidden = true
-vim.o.showtabline = 1
 
 vim.o.incsearch = true
 vim.o.hlsearch = true
