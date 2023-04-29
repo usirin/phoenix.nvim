@@ -105,12 +105,12 @@ require('lazy').setup({
     opts = {
       -- See `:help gitsigns.txt`
       signs = {
-        add = { hl = "GitSignsAdd", text = "·", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-        change = { hl = "GitSignsChange", text = "·", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-        delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-        topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-        changedelete = { hl = "GitSignsChange", text = "·~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn", },
-        untracked = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+        add = { hl = 'GitSignsAdd', text = '·', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        change = { hl = 'GitSignsChange', text = '·', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        delete = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        topdelete = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        changedelete = { hl = 'GitSignsChange', text = '·~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        untracked = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
       },
     },
   },
@@ -119,7 +119,7 @@ require('lazy').setup({
     -- Theme inspired by twitch colors
     'usirin/bleed-purple.nvim',
     priority = 1000,
-    branch = "phoenix-occupative",
+    branch = 'phoenix-occupative',
     dependencies = {
       'rktjmp/lush.nvim',
     },
@@ -137,7 +137,7 @@ require('lazy').setup({
       char = '┊',
       show_trailing_blankline_indent = false,
       show_current_context = true,
-      show_current_context_start = true
+      show_current_context_start = true,
     },
   },
 
@@ -166,7 +166,7 @@ require('lazy').setup({
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
-    build = ":TSUpdate",
+    build = ':TSUpdate',
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -240,21 +240,21 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- usirin configurations
 vim.o.scrolloff = 5
-vim.cmd("set inccommand=split") -- Make substitution work in realtime
-vim.cmd([[set list listchars=tab:\ \ ,trail:·,nbsp:·]])
-vim.cmd([[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store,*/node_modules/*]])
+vim.cmd 'set inccommand=split'
+vim.cmd [[set list listchars=tab:\ \ ,trail:·,nbsp:·]]
+vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store,*/node_modules/*]]
 
 -- set working directory to current buffer's directory
-vim.cmd([[autocmd BufEnter * silent! lcd %:p:h]])
+vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
 
 -- remove whitespace on save
-vim.cmd([[autocmd BufWritePre * :%s/\s\+$//e]])
+vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
 
 vim.o.splitright = true
 vim.o.splitbelow = true
 
 vim.wo.cursorline = true
-vim.wo.signcolumn = "yes"
+vim.wo.signcolumn = 'yes'
 vim.o.hidden = true
 
 vim.o.incsearch = true
@@ -262,58 +262,58 @@ vim.o.hlsearch = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
-vim.cmd([[set expandtab]])
+vim.cmd [[set expandtab]]
 vim.bo.tabstop = 2
 vim.bo.shiftwidth = 2
-vim.cmd("set ts=2") -- Insert 2 spaces for a tab
-vim.cmd("set sw=2") -- Change the number of space characters inserted for indentation
+vim.cmd 'set ts=2'
+vim.cmd 'set sw=2'
 vim.o.shiftround = true
-vim.cmd([[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx setl colorcolumn=80,120]])
+vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx setl colorcolumn=80,120]]
 
 local map = function(mode, key, action, opts)
   local options = { noremap = true }
   if opts then
-    options = vim.tbl_extend("force", options, opts)
+    options = vim.tbl_extend('force', options, opts)
   end
   return vim.keymap.set(mode, key, action, options)
 end
 
 local setup_keymaps = function()
-  map("n", "<leader>ev", ":e ~/.config/nvim/init.lua<CR>")
-  map("n", "<leader>ed", ":e ~/dotfiles/install.sh<CR>")
+  map('n', '<leader>ev', ':e ~/.config/nvim/init.lua<CR>')
+  map('n', '<leader>ed', ':e ~/dotfiles/install.sh<CR>')
 
-  map("i", "jj", "<Esc>")
-  map("t", "jj", [[<C-\><C-n>]])
+  map('i', 'jj', '<Esc>')
+  map('t', 'jj', [[<C-\><C-n>]])
 
-  map("n", "<leader><space>", ":nohlsearch<cr>")
-  map("n", "<leader><leader>", "<C-^>")
+  map('n', '<leader><space>', ':nohlsearch<cr>')
+  map('n', '<leader><leader>', '<C-^>')
 
-  map("n", ";", ":")
-  map("v", ";", ":")
-  map("n", "<Enter>", "o<Esc>")
-  map("n", "<space>", "i<space><C-c>l")
+  map('n', ';', ':')
+  map('v', ';', ':')
+  map('n', '<Enter>', 'o<Esc>')
+  map('n', '<space>', 'i<space><C-c>l')
 
   -- Better split switching
-  map("n", "<C-J>", "<C-W>j")
-  map("n", "<C-K>", "<C-W>k")
-  map("n", "<C-H>", "<C-W>h")
-  map("n", "<C-L>", "<C-W>l")
+  map('n', '<C-J>', '<C-W>j')
+  map('n', '<C-K>', '<C-W>k')
+  map('n', '<C-H>', '<C-W>h')
+  map('n', '<C-L>', '<C-W>l')
 
   -- easy splits | for vertical _ for horizontal
-  map("n", "<bar>", ":vsp<CR>")
-  map("n", "_", [[Hmx``<C-w>szz<C-w><C-p>`x``<C-w><C-p>]])
+  map('n', '<bar>', ':vsp<CR>')
+  map('n', '_', [[Hmx``<C-w>szz<C-w><C-p>`x``<C-w><C-p>]])
 
   -- tabs
-  map("n", "tt", ":tabe<cr>:Alpha<cr>:ProjectRootCD<cr>")
-  map("n", "[t", ":tabprev<cr>")
-  map("n", "t[", ":tabprev<cr>")
-  map("n", "]t", ":tabnext<cr>")
-  map("n", "t]", ":tabnext<cr>")
-  map("n", "[T", ":tabfirst<cr>")
-  map("n", "]T", ":tablast<cr>")
+  map('n', 'tt', ':tabe %<cr>')
+  map('n', '[t', ':tabprev<cr>')
+  map('n', 't[', ':tabprev<cr>')
+  map('n', ']t', ':tabnext<cr>')
+  map('n', 't]', ':tabnext<cr>')
+  map('n', '[T', ':tabfirst<cr>')
+  map('n', ']T', ':tablast<cr>')
 
-  map("n", "]f", ":cnext<cr>")
-  map("n", "[f", ":cprev<cr>")
+  map('n', ']f', ':cnext<cr>')
+  map('n', '[f', ':cprev<cr>')
 end
 setup_keymaps()
 
@@ -361,6 +361,8 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<C-t>', require('telescope.builtin').git_files, { desc = 'Git files' })
+vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = '[G]it [F]iles' })
+vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { desc = '[G]it [S]tatus' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -429,10 +431,10 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[q', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set('n', ']q', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set('n', '[q', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']q', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -454,7 +456,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>w', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
