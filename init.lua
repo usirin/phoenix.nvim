@@ -365,6 +365,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<C-t>', require('telescope.builtin').git_files, { desc = 'Git files' })
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = '[G]it [F]iles' })
 vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { desc = '[G]it [S]tatus' })
+vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 'Telescope resume' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
