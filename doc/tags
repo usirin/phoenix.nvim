@@ -1,3 +1,6 @@
 kickstart-is	kickstart.txt	/*kickstart-is*
 kickstart-is-not	kickstart.txt	/*kickstart-is-not*
 kickstart.nvim	kickstart.txt	/*kickstart.nvim*
+phoenix-is	phoenix.txt	/*phoenix-is*
+phoenix-is-not	phoenix.txt	/*phoenix-is-not*
+phoenix.nvim	phoenix.txt	/*phoenix.nvim*

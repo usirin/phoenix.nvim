@@ -1,0 +1,18 @@
+================================================================================
+INTRODUCTION                                                  *phoenix.nvim*
+
+phoenix.nvim is @usirin's personal neovim configuration, based on
+|kickstart.nvim|
+
+                                                            *phoenix-is-not*
+It is not:
+- for everyone.
+
+                                                                *phoenix-is*
+It is:
+- main purpose is to serve as @usirin's main neovim config.
+- it's an extensible base for people who likes @usirin's neovim config. and
+  since it's based on kickstart.lua, it should always be up-to-date with
+  modern neovim standards.
+
+ vim:tw=78:ts=8:ft=help:norl:
