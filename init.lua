@@ -340,6 +340,10 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    path_display = {
+      shorten = { len = 1, exclude = { -2, -1 } },
+    },
+    dynamic_preview_title = true,
   },
 }
 
