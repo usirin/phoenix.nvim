@@ -1,6 +1,3 @@
--- Unless you are still migrating, remove the deprecated commands from v1.x
-vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v2.x",
@@ -10,9 +7,12 @@ return {
     "MunifTanjim/nui.nvim",
   },
   config = function()
+    -- Unless you are still migrating, remove the deprecated commands from v1.x
+    vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+
     require('neo-tree').setup {
       window = {
-        position = "float",
+        position = "left",
       },
       filesystem = {
         follow_current_file = true,
@@ -24,6 +24,7 @@ return {
       }
     }
 
-    vim.keymap.set("n", "<leader>kb", ":Neotree reveal_force_cwd<cr>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>kb", ":Neotree toggle reveal_force_cwd<cr>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>kq", ":Neotree close<cr>", { noremap = true, silent = true })
   end,
 }
