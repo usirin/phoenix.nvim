@@ -1,0 +1,19 @@
+{
+  "name": "@usirin/phoenix.nvim",
+  "private": true,
+  "version": "1.0.0",
+  "description": "a fork of kickstart.nvim that works with my style.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Umut Sirin <umutsirin1@gmail.com>",
+  "license": "MIT",
+  "volta": {
+    "node": "20.2.0"
+  }
+}
