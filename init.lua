@@ -66,7 +66,14 @@ require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
-  'tpope/vim-fugitive',
+  {
+    -- Theme inspired by twitch colors
+    'tpope/vim-fugitive',
+    config = function()
+      vim.keymap.set('n', '<leader>gg', ":G<CR>", { desc = '[g]it Open Fu[g]itive Window' })
+      vim.keymap.set('n', '<leader>gb', ":0G<CR>", { desc = '[g]it Open Fugitive Window in [b]uffer' })
+    end,
+  },
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
