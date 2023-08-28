@@ -62,7 +62,7 @@ vim.opt.rtp:prepend(lazypath)
 --
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
-require('lazy').setup({
+require('lazy').setup {
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
@@ -70,8 +70,8 @@ require('lazy').setup({
     -- Theme inspired by twitch colors
     'tpope/vim-fugitive',
     config = function()
-      vim.keymap.set('n', '<leader>gg', ":G<CR>", { desc = '[g]it Open Fu[g]itive Window' })
-      vim.keymap.set('n', '<leader>gb', ":0G<CR>", { desc = '[g]it Open Fugitive Window in [b]uffer' })
+      vim.keymap.set('n', '<leader>gg', ':G<CR>', { desc = '[g]it Open Fu[g]itive Window' })
+      vim.keymap.set('n', '<leader>gb', ':0G<CR>', { desc = '[g]it Open Fugitive Window in [b]uffer' })
     end,
   },
   'tpope/vim-rhubarb',
@@ -91,31 +91,22 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        tag = 'legacy',
+        opts = {},
+      },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
   },
 
-  {
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-
-      -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-
-      -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
-    },
-  },
-
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
+  {
+    'folke/which-key.nvim',
+    opts = {},
+  },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -206,7 +197,7 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   { import = 'custom.plugins' },
-}, {})
+}
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -264,7 +255,7 @@ vim.cmd [[set list listchars=tab:\ \ ,trail:·,nbsp:·]]
 vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store,*/node_modules/*]]
 
 -- set working directory to current buffer's directory
-vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
+vim.cmd [[autocmd BufEnter * silent! cd %:p:h]]
 
 -- remove whitespace on save
 vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
@@ -287,7 +278,7 @@ vim.bo.shiftwidth = 2
 vim.cmd 'set ts=2'
 vim.cmd 'set sw=2'
 vim.o.shiftround = true
-vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx setl colorcolumn=80,120]]
+vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx setl colorcolumn=80,100,120]]
 
 local map = function(mode, key, action, opts)
   local options = { noremap = true }
@@ -455,6 +446,12 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+vim.filetype.add {
+  extension = {
+    mdx = 'markdown.mdx',
+  },
+}
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[q', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']q', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
@@ -479,7 +476,8 @@ local on_attach = function(_, bufnr)
   end
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>w', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  -- nmap('<leader>w', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>w', ":Lspsaga code_action<cr>", '[C]ode [A]ction')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -512,11 +510,15 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  gopls = {},
+  gopls = {
+    format = { enable = true },
+  },
   graphql = {},
   tsserver = {},
   prismals = {},
-  jsonls = {},
+  jsonls = {
+    format = { enable = false },
+  },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -549,53 +551,14 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
--- [[ Configure nvim-cmp ]]
--- See `:help cmp`
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.config.setup {}
-
-cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+require('lspconfig').relay_lsp.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = {
+    auto_start_compiler = false,
   },
 }
+-- configure relay_lsp manually since mason doesn't know about it
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
