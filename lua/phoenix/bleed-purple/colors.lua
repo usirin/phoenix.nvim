@@ -1,10 +1,6 @@
-local hsl_convert = require("lush.vivid.hsl.convert")
+local hsl = require('phoenix.utils.color').hsl
 
 local Colors = {}
-
-local hsl = function(h, s, l)
-  return hsl_convert.hsl_to_hex({ h = h, s = s, l = l })
-end
 
 Colors.dark = {
   black = hsl(240, 7, 13),
