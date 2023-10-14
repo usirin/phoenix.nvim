@@ -111,17 +111,19 @@ require('lazy').setup {
     lazy = false,
     priority = 1000,
     config = function()
+      local colors = require('phoenix.blurple.colors').palette
+
       local blurple = {
         main = {
-          color0 = '#15161d',
-          color1 = '#262732',
-          color2 = '#31323f',
-          color3 = '#414252',
-          color4 = '#5c5d6e',
-          color5 = '#828391',
-          color6 = '#a8aab4',
-          color7 = '#c7c8ce',
-          color8 = '#dddee1',
+          color0 = colors['plum.22'],
+          color1 = colors['plum.20'],
+          color2 = colors['plum.14'],
+          color3 = colors['plum.12'],
+          color4 = colors['plum.10'],
+          color5 = colors['plum.8'],
+          color6 = colors['plum.6'],
+          color7 = colors['plum.4'],
+          color8 = colors['plum.2'],
         },
         accent = {
           accent0 = '#707bf4',
@@ -138,7 +140,7 @@ require('lazy').setup {
           hint = '#828391',
           ok = '#248045',
           info = '#00aafc',
-        }
+        },
       }
 
       require('palette').setup {
@@ -156,8 +158,8 @@ require('lazy').setup {
       }
 
       vim.cmd [[colorscheme palette]]
-      vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
-      vim.cmd [[highlight CursorLine guibg=#1c1d26]]
+      -- vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
+      -- vim.cmd [[highlight CursorLine guibg=#1c1d26]]
       vim.cmd [[highlight diffRemoved guifg=#f23f43]]
       vim.cmd [[highlight diffAdded guifg=#248045]]
       vim.cmd [[highlight Comment guifg=#414252]]
@@ -171,11 +173,10 @@ require('lazy').setup {
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
+    main = 'ibl',
     opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-      show_current_context = true,
-      show_current_context_start = true,
+      indent = { char = '┊' },
+      scope = { show_start = false },
     },
   },
 
