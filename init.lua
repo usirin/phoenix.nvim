@@ -370,16 +370,6 @@ local setup_keymaps = function()
 end
 setup_keymaps()
 
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
 local setup_autocmds = function()
   augroup('QuickfixKeybinds', { clear = true })
   autocmd('Filetype', {
@@ -387,6 +377,17 @@ local setup_autocmds = function()
     pattern = 'qf',
     callback = function()
       -- map('n', '<cr>', ":.cc<cr>", { desc = "open file under cursor",  })
+    end,
+  })
+
+  -- [[ Highlight on yank ]]
+  -- See `:help vim.highlight.on_yank()`
+  augroup('YankHighlight', { clear = true })
+  autocmd('TextYankPost', {
+    group = 'YankHighlight',
+    pattern = '*',
+    callback = function()
+      vim.highlight.on_yank()
     end,
   })
 end
