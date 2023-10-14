@@ -360,6 +360,12 @@ local setup_keymaps = function()
   map('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
   -- map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
   -- map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+  -- quickfix things
+  map('n', '<leader>qo', ':copen<cr>', { desc = '[q]uickfix: [o]pen' })
+  map('n', '<leader>qc', ':cclose<cr>', { desc = '[q]uickfix: [c]lose' })
+  map('n', '<leader>qn', ':cnext<cr>', { desc = '[q]uickfix: [n]ext' })
+  map('n', '<leader>qp', ':cprev<cr>', { desc = '[q]uickfix: [p]revious' })
 end
 setup_keymaps()
 
@@ -373,6 +379,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+local setup_autocmds = function()
+  augroup('QuickfixKeybinds', { clear = true })
+  autocmd('Filetype', {
+    group = 'QuickfixKeybinds',
+    pattern = 'qf',
+    callback = function()
+      -- map('n', '<cr>', ":.cc<cr>", { desc = "open file under cursor",  })
+    end,
+  })
+end
+setup_autocmds()
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
