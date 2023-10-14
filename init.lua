@@ -527,8 +527,8 @@ local on_attach = function(_, bufnr)
   end
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  -- nmap('<leader>w', vim.lsp.buf.code_action, '[C]ode [A]ction')
-  nmap('<leader>w', ":Lspsaga code_action<cr>", '[C]ode [A]ction')
+  nmap('<leader>w', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  -- nmap('<leader>w', ':Lspsaga code_action<cr>', '[C]ode [A]ction')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -539,15 +539,15 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  -- nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  -- nmap('<leader>wl', function()
-  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, '[W]orkspace [L]ist Folders')
+  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
+  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+  nmap('<leader>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, '[W]orkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -561,12 +561,12 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  gopls = {
-    format = { enable = true },
-  },
-  graphql = {},
+  -- gopls = {
+  --   format = { enable = true },
+  -- },
+  -- graphql = {},
   tsserver = {},
-  prismals = {},
+  -- prismals = {},
   jsonls = {
     format = { enable = false },
   },
@@ -602,13 +602,13 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
-require('lspconfig').relay_lsp.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
-  settings = {
-    auto_start_compiler = false,
-  },
-}
+-- require('lspconfig').relay_lsp.setup {
+--   capabilities = capabilities,
+--   on_attach = on_attach,
+--   settings = {
+--     auto_start_compiler = false,
+--   },
+-- }
 -- configure relay_lsp manually since mason doesn't know about it
 
 -- The line beneath this is called `modeline`. See `:help modeline`
