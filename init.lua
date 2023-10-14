@@ -291,6 +291,13 @@ local setup_keymaps = function()
 
   map('n', ']f', ':cnext<cr>')
   map('n', '[f', ':cprev<cr>')
+
+  -- Diagnostic keymaps
+  map('n', '[q', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+  map('n', ']q', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+  map('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+  -- map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+  -- map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 end
 setup_keymaps()
 
@@ -350,6 +357,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
+---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
@@ -419,12 +427,6 @@ vim.filetype.add {
     mdx = 'markdown.mdx',
   },
 }
-
--- Diagnostic keymaps
-vim.keymap.set('n', '[q', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']q', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
