@@ -1,25 +1,38 @@
+---@type function
+---comment
+---@param mode any
+---@param keymap any
+---@param trouble_fn any
+---@param desc any
+local map = function(mode, keymap, trouble_fn, desc)
+  vim.keymap.set(mode, keymap, function()
+    require('trouble').open(trouble_fn)
+  end, { desc = "Trouble: " .. desc })
+end
+
 return {
   'folke/trouble.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
+  opts = {
+    auto_preview = false,
+    icons = false,
+    fold_open = 'v',   -- icon used for open folds
+    fold_closed = '>', -- icon used for closed folds
+    signs = {
+      -- icons / text used for a diagnostic
+      error = 'error',
+      warning = 'warn',
+      hint = 'hint',
+      information = 'info',
+    },
+    use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
+  },
   config = function()
-    -- Lua
-    vim.keymap.set('n', '<leader>xx', function()
-      require('trouble').open()
-    end)
-    vim.keymap.set('n', '<leader>xw', function()
-      require('trouble').open 'workspace_diagnostics'
-    end)
-    vim.keymap.set('n', '<leader>xd', function()
-      require('trouble').open 'document_diagnostics'
-    end)
-    vim.keymap.set('n', '<leader>xq', function()
-      require('trouble').open 'quickfix'
-    end)
-    vim.keymap.set('n', '<leader>xl', function()
-      require('trouble').open 'loclist'
-    end)
-    vim.keymap.set('n', 'gR', function()
-      require('trouble').open 'lsp_references'
-    end)
+    map('n', '<leader>xx', nil, "show window")
+    map('n', '<leader>xw', 'workspace_diagnostics', "show [w]orkspace diagnostics")
+    map('n', '<leader>xd', 'document_diagnostics', "show [d]ocument diagnostics")
+    map('n', '<leader>xq', 'quickfix', "show [q]uickfix list")
+    map('n', '<leader>xl', 'loclist', "show [l]ocation list")
+    map('n', 'gR', 'lsp_references', "")
   end,
 }
