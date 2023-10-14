@@ -284,7 +284,7 @@ vim.cmd [[set list listchars=tab:\ \ ,trail:·,nbsp:·]]
 vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store,*/node_modules/*]]
 
 -- set working directory to current buffer's directory
-vim.cmd [[autocmd BufEnter * silent! cd %:p:h]]
+vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
 
 -- remove whitespace on save
 vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
