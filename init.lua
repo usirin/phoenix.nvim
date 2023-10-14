@@ -102,7 +102,69 @@ require('lazy').setup {
       'rktjmp/lush.nvim',
     },
     config = function()
-      vim.cmd.colorscheme 'bleed-purple'
+      -- vim.cmd.colorscheme 'bleed-purple'
+    end,
+  },
+
+  {
+    'roobert/palette.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      local blurple = {
+        main = {
+          color0 = '#15161d',
+          color1 = '#262732',
+          color2 = '#31323f',
+          color3 = '#414252',
+          color4 = '#5c5d6e',
+          color5 = '#828391',
+          color6 = '#a8aab4',
+          color7 = '#c7c8ce',
+          color8 = '#dddee1',
+        },
+        accent = {
+          accent0 = '#707bf4',
+          accent1 = '#7984f5',
+          accent2 = '#949cf7',
+          accent3 = '#9ba3f7',
+          accent4 = '#a8aff8',
+          accent5 = '#bcc1fa',
+          accent6 = '#c9cdfb',
+        },
+        state = {
+          error = '#f23f43',
+          warning = '#f0b232',
+          hint = '#828391',
+          ok = '#248045',
+          info = '#00aafc',
+        }
+      }
+
+      require('palette').setup {
+        palettes = {
+          main = 'blurple',
+          accent = 'blurple',
+          state = 'blurple',
+        },
+
+        custom_palettes = {
+          main = { blurple = blurple.main },
+          accent = { blurple = blurple.accent },
+          state = { blurple = blurple.state },
+        },
+      }
+
+      vim.cmd [[colorscheme palette]]
+      vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
+      vim.cmd [[highlight CursorLine guibg=#1c1d26]]
+      vim.cmd [[highlight diffRemoved guifg=#f23f43]]
+      vim.cmd [[highlight diffAdded guifg=#248045]]
+      vim.cmd [[highlight Comment guifg=#414252]]
+      vim.cmd [[highlight link gitcommitFirstLine Search]]
+      vim.cmd [[highlight link gitcommitSummary gitcommitFirstLine]]
+    end,
+  },
     end,
   },
 
