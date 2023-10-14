@@ -165,8 +165,6 @@ require('lazy').setup {
       vim.cmd [[highlight link gitcommitSummary gitcommitFirstLine]]
     end,
   },
-    end,
-  },
 
   {
     -- Add indentation guides even on blank lines
@@ -316,6 +314,9 @@ local map = function(mode, key, action, opts)
   end
   return vim.keymap.set(mode, key, action, options)
 end
+
+local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
+local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
 local setup_keymaps = function()
   map('n', '<leader>ev', ':e ~/.config/nvim/init.lua<CR>')
