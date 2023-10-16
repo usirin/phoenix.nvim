@@ -158,7 +158,7 @@ require('lazy').setup {
       }
 
       vim.cmd [[colorscheme palette]]
-      -- vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
+      vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
       -- vim.cmd [[highlight CursorLine guibg=#1c1d26]]
       vim.cmd [[highlight diffRemoved guifg=#f23f43]]
       vim.cmd [[highlight diffAdded guifg=#248045]]
@@ -283,7 +283,7 @@ vim.cmd [[set list listchars=tab:\ \ ,trail:·,nbsp:·]]
 vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store,*/node_modules/*]]
 
 -- set working directory to current buffer's directory
-vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
+vim.cmd [[autocmd BufEnter * silent! cd %:p:h]]
 
 -- remove whitespace on save
 vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
@@ -540,7 +540,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
