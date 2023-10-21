@@ -6,12 +6,13 @@ return {
     config = function()
       require('copilot').setup {
         panel = {
-          enabled = true,
-          keymap = { open = '<leader>co' },
-          layout = { position = "right", ratio = 0.2 }
+          enabled = false, -- using nvim-cmp to do this
+          -- enabled = true,
+          -- keymap = { open = '<C-t>' },
+          -- layout = { position = "right", ratio = 0.2 }
         },
         suggestion = { enabled = false },
-        filetypes = { markdown = true, gitcommit = true }
+        filetypes = { markdown = true, gitcommit = true, help = true },
       }
     end,
   },

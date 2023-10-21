@@ -17,6 +17,11 @@ return {
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       'petertriho/cmp-git',
+      {
+        'zbirenbaum/copilot-cmp',
+        dependencies = 'copilot.lua',
+        opts = {},
+      },
     },
     config = function()
       -- [[ Configure nvim-cmp ]]
@@ -28,7 +33,7 @@ return {
 
       cmp.setup {
         view = {
-          entries = { name = 'custom', selection_order = "near_cursor" }
+          entries = { name = 'custom', selection_order = 'near_cursor' },
         },
         snippet = {
           expand = function(args)
@@ -69,6 +74,7 @@ return {
           end, { 'i', 's' }),
         },
         sources = {
+          { name = 'copilot' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'buffer',  keyword_length = 3 },
