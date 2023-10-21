@@ -23,7 +23,7 @@ return {
 
       -- require("typescript.extensions.null-ls.code-actions"),
 
-      -- b.formatting.eslint_d,
+      b.formatting.eslint_d,
 
       -- b.diagnostics.eslint_d,
       -- b.code_actions.eslint_d,
