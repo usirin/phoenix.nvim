@@ -13,11 +13,11 @@ return {
         end,
       }),
 
-      b.formatting.goimports.with({
-        args = {
-          "-srcdir", "$DIRNAME", "-local=code.justin.tv", "-w", "cmd", "errorutils", "internal", "loaders", "resolvers"
-        }
-      }),
+      -- b.formatting.goimports.with({
+      --   args = {
+      --     "-srcdir", "$DIRNAME", "-w", "cmd", "errorutils", "internal", "loaders", "resolvers"
+      --   }
+      -- }),
 
       b.formatting.beautysh,
 

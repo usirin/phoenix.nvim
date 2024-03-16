@@ -9,7 +9,7 @@ return {
   config = function()
     require('lspsaga').setup {
       symbol_in_winbar = {
-        enable = true,
+        enable = false,
         separator = ' › ',
         hide_keyword = false,
         show_file = true,
@@ -18,7 +18,7 @@ return {
         delay = 300,
       },
       lightbulb = {
-        enable = true,
+        enable = false,
         sign = true,
         debounce = 10,
         sign_priority = 40,

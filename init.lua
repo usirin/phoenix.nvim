@@ -1,11 +1,12 @@
-if vim.g.vscode then
-  return
-end
 -- Set , as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
+
+if vim.g.vscode then
+  return
+end
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -110,11 +111,25 @@ require('lazy').setup {
   },
 
   {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup {
+        'css',
+        'javascript',
+        'json',
+        'typescriptreact',
+        'typescript',
+        'lua',
+      }
+    end,
+  },
+
+  {
     'roobert/palette.nvim',
     lazy = false,
     priority = 1000,
     config = function()
-      local colors = require('phoenix.blurple.colors').palette
+      local colors = require('phoenix.blurple.colors').colors
 
       local blurple = {
         main = {
@@ -129,13 +144,22 @@ require('lazy').setup {
           color8 = colors['plum.2'],
         },
         accent = {
-          accent0 = '#707bf4',
-          accent1 = '#7984f5',
-          accent2 = '#949cf7',
-          accent3 = '#9ba3f7',
-          accent4 = '#a8aff8',
-          accent5 = '#bcc1fa',
-          accent6 = '#c9cdfb',
+          accent0 = colors['brand.430'],
+          accent1 = colors['brand.400'],
+          accent2 = colors['brand.360'],
+          accent3 = colors['brand.345'],
+          accent4 = colors['brand.330'],
+          accent5 = colors['brand.300'],
+          accent6 = colors['brand.260'],
+        },
+        accent_color = {
+          accent0 = colors['red.330'],
+          accent1 = colors['orange.330'],
+          accent2 = colors['yellow.330'],
+          accent3 = colors['green.330'],
+          accent4 = colors['teal.330'],
+          accent5 = colors['blue.330'],
+          accent6 = colors['brand.330'],
         },
         state = {
           error = '#f23f43',
@@ -149,13 +173,13 @@ require('lazy').setup {
       require('palette').setup {
         palettes = {
           main = 'blurple',
-          accent = 'blurple',
+          accent = 'blurple_color',
           state = 'blurple',
         },
 
         custom_palettes = {
           main = { blurple = blurple.main },
-          accent = { blurple = blurple.accent },
+          accent = { blurple = blurple.accent, blurple_color = blurple.accent_color },
           state = { blurple = blurple.state },
         },
       }
@@ -429,14 +453,12 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', ':Telescope ast_grep<CR>', { desc = '[S]earch by AST [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<C-t>', require('telescope.builtin').git_files, { desc = 'Git files' })
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = '[G]it [F]iles' })
 vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { desc = '[G]it [S]tatus' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 'Telescope resume' })
 
@@ -579,6 +601,9 @@ local servers = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
+  },
+  eslint = {
+    format = { enable = true },
   },
 }
 

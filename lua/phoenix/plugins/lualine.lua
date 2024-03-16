@@ -98,36 +98,37 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-      -- winbar = {
-      --   lualine_a = {},
-      --   lualine_b = {},
-      --   lualine_c = { fishpath(3) },
-      --   lualine_x = {},
-      --   lualine_y = {},
-      --   lualine_z = {},
-      -- },
-      -- inactive_winbar = {
-      --   lualine_a = {},
-      --   lualine_b = {},
-      --   lualine_c = { fishpath(3) },
-      --   lualine_x = {},
-      --   lualine_y = {},
-      --   lualine_z = {},
-      -- },
-      tabline = {
+      winbar = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = {
+        lualine_c = { fishpath(3) },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      inactive_winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { fishpath(3) },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      tabline = {
+        lualine_a = {
           {
             'tabs',
-            mode = 2,
+            mode = 1,
+            max_length = vim.o.columns / 3,
             tabs_color = {
               -- Same values as the general color option can be used here.
-              active = 'TabLineSel', -- Color for active tab.
-              inactive = 'TabLine',  -- Color for inactive tab.
+              -- active = 'TabLineSel', -- Color for active tab.
+              -- inactive = 'TabLine',  -- Color for inactive tab.
             },
           },
         },
+        lualine_b = {},
+        lualine_c = {},
         -- lualine_x = { "require'phoenix.utils.lsp'.get_attached_clients()" },
         -- lualine_y = {"require'lsp-status'.status()"},
         lualine_z = { { 'branch', icons_enabled = true } },
