@@ -80,7 +80,7 @@ return {
         -- theme = 'onedark',
         component_separators = '|',
         section_separators = '',
-        theme = get_theme(vim.o.background),
+        -- theme = get_theme(vim.o.background),
       },
       sections = {
         lualine_a = { 'mode' },

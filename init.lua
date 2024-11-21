@@ -4,6 +4,8 @@
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
+vim.g.python3_host_prog = '/Users/usirin/code/github.com/usirin/phoenix.nvim/venv/bin/python'
+
 if vim.g.vscode then
   return
 end
@@ -24,17 +26,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
 require('lazy').setup {
-  -- NOTE: First, some plugins that don't require any configuration
-
-  -- Git related plugins
   {
-    -- Theme inspired by twitch colors
     'tpope/vim-fugitive',
     config = function()
       vim.keymap.set('n', '<leader>gg', ':vertical G<CR>', { desc = '[g]it Open Fu[g]itive Window' })
@@ -52,41 +45,19 @@ require('lazy').setup {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      {
-        'j-hui/fidget.nvim',
-        tag = 'legacy',
-        opts = {},
-      },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
       'folke/neodev.nvim',
     },
   },
 
   -- Useful plugin to show you pending keybinds.
-  {
-    'folke/which-key.nvim',
-    opts = {},
-  },
+  { 'folke/which-key.nvim',          opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { hl = 'GitSignsAdd', text = '·', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-        change = { hl = 'GitSignsChange', text = '·', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        delete = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        topdelete = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        changedelete = { hl = 'GitSignsChange', text = '·~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        untracked = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-      },
       on_attach = function(bufnr)
         vim.keymap.set('n', '[c', require('gitsigns').prev_hunk, { buffer = bufnr, desc = 'Go to Previous Hunk' })
         vim.keymap.set('n', ']c', require('gitsigns').next_hunk, { buffer = bufnr, desc = 'Go to Next Hunk' })
@@ -113,96 +84,28 @@ require('lazy').setup {
   {
     'norcalli/nvim-colorizer.lua',
     config = function()
-      require('colorizer').setup {
-        'css',
-        'javascript',
-        'json',
-        'typescriptreact',
-        'typescript',
-        'lua',
-      }
+      require('colorizer').setup { 'css', 'javascript', 'json', 'typescriptreact', 'typescript', 'lua' }
     end,
   },
 
   {
-    'roobert/palette.nvim',
-    lazy = false,
-    priority = 1000,
+    'projekt0n/github-nvim-theme',
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      local colors = require('phoenix.blurple.colors').colors
+      require('github-theme').setup {}
 
-      local blurple = {
-        main = {
-          color0 = colors['plum.22'],
-          color1 = colors['plum.20'],
-          color2 = colors['plum.14'],
-          color3 = colors['plum.12'],
-          color4 = colors['plum.10'],
-          color5 = colors['plum.8'],
-          color6 = colors['plum.6'],
-          color7 = colors['plum.4'],
-          color8 = colors['plum.2'],
-        },
-        accent = {
-          accent0 = colors['brand.430'],
-          accent1 = colors['brand.400'],
-          accent2 = colors['brand.360'],
-          accent3 = colors['brand.345'],
-          accent4 = colors['brand.330'],
-          accent5 = colors['brand.300'],
-          accent6 = colors['brand.260'],
-        },
-        accent_color = {
-          accent0 = colors['red.330'],
-          accent1 = colors['orange.330'],
-          accent2 = colors['yellow.330'],
-          accent3 = colors['green.330'],
-          accent4 = colors['teal.330'],
-          accent5 = colors['blue.330'],
-          accent6 = colors['brand.330'],
-        },
-        state = {
-          error = '#f23f43',
-          warning = '#f0b232',
-          hint = '#828391',
-          ok = '#248045',
-          info = '#00aafc',
-        },
-      }
-
-      require('palette').setup {
-        palettes = {
-          main = 'blurple',
-          accent = 'blurple_color',
-          state = 'blurple',
-        },
-
-        custom_palettes = {
-          main = { blurple = blurple.main },
-          accent = { blurple = blurple.accent, blurple_color = blurple.accent_color },
-          state = { blurple = blurple.state },
-        },
-      }
-
-      vim.cmd [[colorscheme palette]]
-      vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
-      -- vim.cmd [[highlight CursorLine guibg=#1c1d26]]
-      vim.cmd [[highlight diffRemoved guifg=#f23f43]]
-      vim.cmd [[highlight diffAdded guifg=#248045]]
-      vim.cmd [[highlight Comment guifg=#414252]]
-      vim.cmd [[highlight link gitcommitFirstLine Search]]
-      vim.cmd [[highlight link gitcommitSummary gitcommitFirstLine]]
+      vim.cmd 'colorscheme github_dark_default'
+      -- vim.cmd 'colorscheme github_light'
+      vim.cmd [[highlight CursorLine guibg=#1c1d26]]
     end,
   },
 
   {
-    -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
     main = 'ibl',
     opts = {
-      indent = { char = '┊' },
+      indent = { char = '┊', tab_char = '┊' },
       scope = { show_start = false },
     },
   },
@@ -241,7 +144,7 @@ require('lazy').setup {
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   require 'kickstart.plugins.autoformat',
-  require 'kickstart.plugins.debug',
+  -- require 'kickstart.plugins.debug',
 
   -- NOTE: These are the plugins added by phoenix.nvim community.
   { import = 'phoenix.plugins' },
@@ -334,6 +237,8 @@ vim.cmd 'set ts=2'
 vim.cmd 'set sw=2'
 vim.o.shiftround = true
 vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx setl colorcolumn=80,100,120]]
+vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx set ts=2]]
+vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx set sw=2]]
 
 local map = function(mode, key, action, opts)
   local options = { noremap = true }
@@ -554,6 +459,7 @@ local on_attach = function(_, bufnr)
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>w', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  -- nmap('<M-.>', vim.lsp.buf.code_action, '[C]ode [A]ction')
   -- nmap('<leader>w', ':Lspsaga code_action<cr>', '[C]ode [A]ction')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
@@ -581,6 +487,8 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+local lspconfig = require 'lspconfig'
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -591,7 +499,7 @@ local servers = {
   --   format = { enable = true },
   -- },
   -- graphql = {},
-  tsserver = {},
+  ts_ls = {},
   -- prismals = {},
   jsonls = {
     format = { enable = false },
@@ -605,6 +513,15 @@ local servers = {
   eslint = {
     format = { enable = true },
   },
+  elixirls = {
+    -- dialyzer = { use = false },
+  },
+  biome = {
+    -- root_dir = lspconfig.util.root_pattern('biome.jsonc', 'biome.json'),
+    single_file_support = true,
+    format = { enable = true },
+  },
+  rust_analyzer = {},
 }
 
 -- Setup neovim lua configuration

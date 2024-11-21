@@ -1,9 +1,3 @@
-local has_words_before = function()
-  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
-end
-
 return {
   {
     -- Autocompletion
@@ -23,11 +17,6 @@ return {
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       'petertriho/cmp-git',
-      {
-        'zbirenbaum/copilot-cmp',
-        dependencies = 'copilot.lua',
-        opts = {},
-      },
     },
     config = function()
       -- [[ Configure nvim-cmp ]]
@@ -56,37 +45,37 @@ return {
           ['<C-d>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete {},
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
 
-          ['<CR>'] = cmp.mapping(function(fallback)
-            if cmp.visible() and cmp.get_active_entry() then
-              cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() and has_words_before() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_locally_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
+          -- ['<CR>'] = cmp.mapping(function(fallback)
+          --   if cmp.visible() and cmp.get_active_entry() then
+          --     cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }
+          --   else
+          --     fallback()
+          --   end
+          -- end, { 'i', 's' }),
+          -- ['<Tab>'] = cmp.mapping(function(fallback)
+          --   if cmp.visible() and has_words_before() then
+          --     cmp.select_next_item()
+          --   elseif luasnip.expand_or_locally_jumpable() then
+          --     luasnip.expand_or_jump()
+          --   else
+          --     fallback()
+          --   end
+          -- end, { 'i', 's' }),
+          -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+          --   if cmp.visible() then
+          --     cmp.select_prev_item()
+          --   elseif luasnip.locally_jumpable(-1) then
+          --     luasnip.jump(-1)
+          --   else
+          --     fallback()
+          --   end
+          -- end, { 'i', 's' }),
         },
         sources = {
           { name = 'nvim_lsp', priority = 100 },
-          { name = 'copilot' },
-          { name = 'luasnip' },
+          -- { name = 'luasnip' },
           { name = 'buffer',   keyword_length = 3 },
           { name = 'path' },
         },
