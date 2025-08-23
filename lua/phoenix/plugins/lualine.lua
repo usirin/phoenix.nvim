@@ -1,39 +1,5 @@
-local colors = require('phoenix.bleed-purple.colors').dark
 local fish_like_path = require 'phoenix.utils.fish_like_path'
 
-local dark_theme = {
-  normal = {
-    a = { bg = colors.bmagenta, fg = colors.bblack, gui = 'bold' },
-    b = { bg = colors.bblack, fg = colors.black },
-    c = { bg = colors.status_bg, fg = colors.white },
-  },
-  insert = { a = { bg = colors.green, fg = colors.black, gui = 'bold' } },
-  visual = { a = { bg = colors.yellow, fg = colors.black, gui = 'bold' } },
-  replace = { a = { bg = colors.red, fg = colors.black, gui = 'bold' } },
-  command = { a = { bg = colors.bblue, fg = colors.black, gui = 'bold' } },
-  inactive = {
-    a = { bg = colors.status_bg, fg = colors.dimmed_text },
-    b = { bg = colors.status_bg, fg = colors.dimmed_text },
-    c = { bg = colors.status_bg, fg = colors.dimmed_text },
-  },
-}
-
-local light_theme = {
-  normal = {
-    a = { bg = colors.bmagenta, fg = colors.bblack, gui = 'bold' },
-    b = { bg = colors.bgreen, fg = colors.black },
-    c = { bg = colors.white, fg = colors.black },
-  },
-  insert = { a = { bg = colors.green, fg = colors.black, gui = 'bold' } },
-  visual = { a = { bg = colors.yellow, fg = colors.black, gui = 'bold' } },
-  replace = { a = { bg = colors.red, fg = colors.black, gui = 'bold' } },
-  command = { a = { bg = colors.bblue, fg = colors.black, gui = 'bold' } },
-  inactive = {
-    a = { bg = colors.white, fg = colors.dimmed_text },
-    b = { bg = colors.white, fg = colors.dimmed_text },
-    c = { bg = colors.white, fg = colors.dimmed_text },
-  },
-}
 
 local file_status = function(is_modified)
   if is_modified then
@@ -56,12 +22,6 @@ local fishpath = function(level)
   end
 end
 
-local get_theme = function(bg)
-  if bg == 'light' then
-    return light_theme
-  end
-  return dark_theme
-end
 
 vim.cmd [[
 autocmd ColorScheme * lua require'phoenix.plugins.lualine'.config()
@@ -75,12 +35,12 @@ return {
   config = function()
     require('lualine').setup {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         globalstatus = true,
         -- theme = 'onedark',
         component_separators = '|',
         section_separators = '',
-        theme = get_theme(vim.o.background),
+        -- theme = get_theme(vim.o.background),
       },
       sections = {
         lualine_a = { 'mode' },

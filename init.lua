@@ -1,12 +1,186 @@
+local map = require 'phoenix.utils.keymap'
 -- Set , as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
+local function is_git_repo()
+  return vim.fn.system 'git rev-parse --is-inside-work-tree' == 0
+end
+
+local function get_git_root()
+  local dot_git_path = vim.fn.finddir('.git', '.;')
+  return vim.fn.fnamemodify(dot_git_path, ':h')
+end
+
+local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
+local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
+
+local setup_keymaps = function()
+  map('n', '<leader>ev', ':e ~/.config/nvim/init.lua<CR>')
+  map('n', '<leader>ed', ':e ~/dotfiles/install.sh<CR>')
+
+  map('i', 'jj', '<Esc>')
+  map('t', 'jj', [[<C-\><C-n>]])
+
+  map('n', '<leader><space>', ':nohlsearch<cr>')
+  map('n', '<leader><leader>', '<C-^>')
+
+  map('n', ';', ':')
+  map('v', ';', ':')
+  map('n', '<Enter>', 'o<Esc>')
+  map('n', '<space>', 'i<space><C-c>l')
+
+  -- Better split switching
+  map('n', '<C-J>', '<C-W>j')
+  map('n', '<C-K>', '<C-W>k')
+  map('n', '<C-H>', '<C-W>h')
+  map('n', '<C-L>', '<C-W>l')
+
+  -- easy splits | for vertical _ for horizontal
+  map('n', '<bar>', ':vsp<CR>')
+  map('n', '_', [[Hmx``<C-w>szz<C-w><C-p>`x``<C-w><C-p>]])
+
+  -- tabs
+  map('n', 'tt', ':tabe %<cr>')
+  map('n', '[t', ':tabprev<cr>')
+  map('n', 't[', ':tabprev<cr>')
+  map('n', ']t', ':tabnext<cr>')
+  map('n', 't]', ':tabnext<cr>')
+  map('n', '[T', ':tabfirst<cr>')
+  map('n', ']T', ':tablast<cr>')
+
+  map('n', ']f', ':cnext<cr>')
+  map('n', '[f', ':cprev<cr>')
+
+  -- Diagnostic keymaps
+  map('n', '[q', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+  map('n', ']q', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+  map('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+  -- map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+  -- map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+  -- quickfix things
+  map('n', '<leader>qo', ':copen<cr>', { desc = '[q]uickfix: [o]pen' })
+  map('n', '<leader>qc', ':cclose<cr>', { desc = '[q]uickfix: [c]lose' })
+  map('n', '<leader>qn', ':cnext<cr>', { desc = '[q]uickfix: [n]ext' })
+  map('n', '<leader>qp', ':cprev<cr>', { desc = '[q]uickfix: [p]revious' })
+end
+setup_keymaps()
+-- [[ Setting options ]]
+-- See `:help vim.o`
+-- NOTE: You can change these options as you wish!
+
+-- Make line numbers default
+vim.wo.number = true
+
+-- do not wrap lines to the next line
+vim.wo.wrap = false
+
+-- Enable mouse mode
+vim.o.mouse = 'a'
+
+-- Enable break indent
+vim.o.breakindent = true
+
+-- no swap file
+vim.opt.swapfile = false
+
+-- Case insensitive searching UNLESS /C or capital in search
+vim.o.incsearch = true
+vim.o.hlsearch = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+-- Keep signcolumn on by default
+vim.wo.signcolumn = 'yes'
+
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeout = true
+vim.o.timeoutlen = 300
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- NOTE: You should make sure your terminal supports this
+vim.o.termguicolors = true
+
+-- [[ Basic Keymaps ]]
+
+-- Keymaps for better default experience
+-- See `:help vim.keymap.set()`
+-- vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+-- Remap for dealing with word wrap
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- usirin configurations
+vim.o.scrolloff = 5
+vim.cmd 'set inccommand=split'
+vim.cmd [[set list listchars=tab:\ \ ,trail:·,nbsp:·]]
+vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store,*/node_modules/*]]
+
+-- set working directory to current buffer's directory
+-- vim.cmd [[autocmd BufEnter * silent! cd %:p:h]]
+
+-- remove whitespace on save
+vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
+
+vim.o.splitright = true
+vim.o.splitbelow = true
+
+vim.wo.cursorline = true
+vim.wo.signcolumn = 'yes'
+vim.o.hidden = true
+
+vim.o.incsearch = true
+vim.o.hlsearch = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+vim.cmd [[set expandtab]]
+vim.bo.tabstop = 2
+vim.bo.shiftwidth = 2
+vim.cmd 'set ts=2'
+vim.cmd 'set sw=2'
+vim.o.shiftround = true
+vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx setl colorcolumn=80,100,120]]
+vim.o.foldmethod = 'indent'
+vim.o.foldlevelstart = 99 -- start unfolded
+vim.o.foldminlines = 1
+
+local setup_autocmds = function()
+  augroup('QuickfixKeybinds', { clear = true })
+  autocmd('Filetype', {
+    group = 'QuickfixKeybinds',
+    pattern = 'qf',
+    callback = function()
+      -- map('n', '<cr>', ":.cc<cr>", { desc = "open file under cursor",  })
+    end,
+  })
+
+  -- [[ Highlight on yank ]]
+  -- See `:help vim.highlight.on_yank()`
+  augroup('YankHighlight', { clear = true })
+  autocmd('TextYankPost', {
+    group = 'YankHighlight',
+    pattern = '*',
+    callback = function()
+      vim.highlight.on_yank()
+    end,
+  })
+end
+setup_autocmds()
+
 if vim.g.vscode then
   return
 end
+
+-- set working directory to current buffer's directory
+vim.cmd [[autocmd BufEnter * silent! cd %:p:h]]
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -65,7 +239,17 @@ require('lazy').setup {
       },
 
       -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua', -- only load on lua files
+        opts = {
+          library = {
+            -- See the configuration section for more details
+            -- Load luvit types when the `vim.uv` word is found
+            { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+          },
+        },
+      },
     },
   },
 
@@ -79,14 +263,14 @@ require('lazy').setup {
     'lewis6991/gitsigns.nvim',
     opts = {
       -- See `:help gitsigns.txt`
-      signs = {
-        add = { hl = 'GitSignsAdd', text = '·', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-        change = { hl = 'GitSignsChange', text = '·', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        delete = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        topdelete = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        changedelete = { hl = 'GitSignsChange', text = '·~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        untracked = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-      },
+      -- signs = {
+      --   add = { hl = 'GitSignsAdd', text = '·', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+      --   change = { hl = 'GitSignsChange', text = '·', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+      --   delete = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+      --   topdelete = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+      --   changedelete = { hl = 'GitSignsChange', text = '·~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+      --   untracked = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+      -- },
       on_attach = function(bufnr)
         vim.keymap.set('n', '[c', require('gitsigns').prev_hunk, { buffer = bufnr, desc = 'Go to Previous Hunk' })
         vim.keymap.set('n', ']c', require('gitsigns').next_hunk, { buffer = bufnr, desc = 'Go to Next Hunk' })
@@ -94,6 +278,28 @@ require('lazy').setup {
         vim.keymap.set('n', '<leader>gv', require('gitsigns').select_hunk,
           { buffer = bufnr, desc = 'Git [V]isually select hunk' })
       end,
+    },
+  },
+
+  {
+    'dmtrKovalenko/fff.nvim',
+    build = 'cargo build --release',
+    -- or if you are using nixos
+    -- build = "nix run .#release",
+    opts = {
+      max_threads = 8,
+      keymaps = {
+        close = { '<Esc>', '<C-c>' },
+      },
+    },
+    keys = {
+      {
+        'ff', -- try it if you didn't it is a banger keybinding for a picker
+        function()
+          require('fff').find_in_git_root()
+        end,
+        desc = 'Open file picker',
+      },
     },
   },
 
@@ -184,14 +390,38 @@ require('lazy').setup {
         },
       }
 
-      vim.cmd [[colorscheme palette]]
-      vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
+      -- vim.cmd [[colorscheme palette]]
+      -- vim.cmd [[highlight ColorColumn guibg=#1c1d26]]
+      -- vim.cmd [[highlight diffRemoved guifg=#f23f43]]
+      -- vim.cmd [[highlight diffAdded guifg=#248045]]
+      -- vim.cmd [[highlight Comment guifg=#414252]]
+      -- vim.cmd [[highlight link gitcommitFirstLine Search]]
+      -- vim.cmd [[highlight link gitcommitSummary gitcommitFirstLine]]
+    end,
+  },
+
+  {
+    'projekt0n/github-nvim-theme',
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      -- require('github-theme').setup {
+      --   -- ...
+      -- }
+      --
+      -- vim.cmd 'colorscheme github_dark'
+      vim.cmd 'colorscheme github_dark_default'
+      vim.cmd [[highlight CursorLine guibg=#1c1d26]]
+    end,
+  },
+  {
+    'm4kman/m4krome.nvim',
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      -- vim.cmd 'colorscheme m4krome'
+      -- -- vim.cmd 'colorscheme github_dark_dimmed'
       -- vim.cmd [[highlight CursorLine guibg=#1c1d26]]
-      vim.cmd [[highlight diffRemoved guifg=#f23f43]]
-      vim.cmd [[highlight diffAdded guifg=#248045]]
-      vim.cmd [[highlight Comment guifg=#414252]]
-      vim.cmd [[highlight link gitcommitFirstLine Search]]
-      vim.cmd [[highlight link gitcommitSummary gitcommitFirstLine]]
     end,
   },
 
@@ -203,7 +433,7 @@ require('lazy').setup {
     main = 'ibl',
     opts = {
       indent = { char = '┊' },
-      scope = { show_start = false },
+      -- scope = { show_start = false },
     },
   },
 
@@ -254,173 +484,6 @@ require('lazy').setup {
   { import = 'custom.plugins' },
 }
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
-
--- Make line numbers default
-vim.wo.number = true
-
--- do not wrap lines to the next line
-vim.wo.wrap = false
-
--- Enable mouse mode
-vim.o.mouse = 'a'
-
--- Enable break indent
-vim.o.breakindent = true
-
--- no swap file
-vim.opt.swapfile = false
-
--- Case insensitive searching UNLESS /C or capital in search
-vim.o.incsearch = true
-vim.o.hlsearch = true
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
-
--- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
-
--- [[ Basic Keymaps ]]
-
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
--- vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- usirin configurations
-vim.o.scrolloff = 5
-vim.cmd 'set inccommand=split'
-vim.cmd [[set list listchars=tab:\ \ ,trail:·,nbsp:·]]
-vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store,*/node_modules/*]]
-
--- set working directory to current buffer's directory
-vim.cmd [[autocmd BufEnter * silent! cd %:p:h]]
-
--- remove whitespace on save
-vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
-
-vim.o.splitright = true
-vim.o.splitbelow = true
-
-vim.wo.cursorline = true
-vim.wo.signcolumn = 'yes'
-vim.o.hidden = true
-
-vim.o.incsearch = true
-vim.o.hlsearch = true
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
-vim.cmd [[set expandtab]]
-vim.bo.tabstop = 2
-vim.bo.shiftwidth = 2
-vim.cmd 'set ts=2'
-vim.cmd 'set sw=2'
-vim.o.shiftround = true
-vim.cmd [[autocmd BufNewFile,BufReadPost *.js,*.ts,*.tsx setl colorcolumn=80,100,120]]
-
-local map = function(mode, key, action, opts)
-  local options = { noremap = true }
-  if opts then
-    options = vim.tbl_extend('force', options, opts)
-  end
-  return vim.keymap.set(mode, key, action, options)
-end
-
-local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
-local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
-
-local setup_keymaps = function()
-  map('n', '<leader>ev', ':e ~/.config/nvim/init.lua<CR>')
-  map('n', '<leader>ed', ':e ~/dotfiles/install.sh<CR>')
-
-  map('i', 'jj', '<Esc>')
-  map('t', 'jj', [[<C-\><C-n>]])
-
-  map('n', '<leader><space>', ':nohlsearch<cr>')
-  map('n', '<leader><leader>', '<C-^>')
-
-  map('n', ';', ':')
-  map('v', ';', ':')
-  map('n', '<Enter>', 'o<Esc>')
-  map('n', '<space>', 'i<space><C-c>l')
-
-  -- Better split switching
-  map('n', '<C-J>', '<C-W>j')
-  map('n', '<C-K>', '<C-W>k')
-  map('n', '<C-H>', '<C-W>h')
-  map('n', '<C-L>', '<C-W>l')
-
-  -- easy splits | for vertical _ for horizontal
-  map('n', '<bar>', ':vsp<CR>')
-  map('n', '_', [[Hmx``<C-w>szz<C-w><C-p>`x``<C-w><C-p>]])
-
-  -- tabs
-  map('n', 'tt', ':tabe %<cr>')
-  map('n', '[t', ':tabprev<cr>')
-  map('n', 't[', ':tabprev<cr>')
-  map('n', ']t', ':tabnext<cr>')
-  map('n', 't]', ':tabnext<cr>')
-  map('n', '[T', ':tabfirst<cr>')
-  map('n', ']T', ':tablast<cr>')
-
-  map('n', ']f', ':cnext<cr>')
-  map('n', '[f', ':cprev<cr>')
-
-  -- Diagnostic keymaps
-  map('n', '[q', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-  map('n', ']q', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-  map('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-  -- map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-  -- map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-
-  -- quickfix things
-  map('n', '<leader>qo', ':copen<cr>', { desc = '[q]uickfix: [o]pen' })
-  map('n', '<leader>qc', ':cclose<cr>', { desc = '[q]uickfix: [c]lose' })
-  map('n', '<leader>qn', ':cnext<cr>', { desc = '[q]uickfix: [n]ext' })
-  map('n', '<leader>qp', ':cprev<cr>', { desc = '[q]uickfix: [p]revious' })
-end
-setup_keymaps()
-
-local setup_autocmds = function()
-  augroup('QuickfixKeybinds', { clear = true })
-  autocmd('Filetype', {
-    group = 'QuickfixKeybinds',
-    pattern = 'qf',
-    callback = function()
-      -- map('n', '<cr>', ":.cc<cr>", { desc = "open file under cursor",  })
-    end,
-  })
-
-  -- [[ Highlight on yank ]]
-  -- See `:help vim.highlight.on_yank()`
-  augroup('YankHighlight', { clear = true })
-  autocmd('TextYankPost', {
-    group = 'YankHighlight',
-    pattern = '*',
-    callback = function()
-      vim.highlight.on_yank()
-    end,
-  })
-end
-setup_autocmds()
-
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -436,7 +499,25 @@ require('telescope').setup {
     },
     dynamic_preview_title = true,
   },
+  extensions = {
+    fzf = {
+      override_generic_sorter = true, -- override the generic sorter
+      override_file_sorter = true,    -- override the file sorter
+      case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+    },
+  },
 }
+
+local function find_files_git_root()
+  if is_git_repo() then
+    require('telescope.builtin').find_files {
+      cwd = get_git_root(),
+      find_command = { 'fd' },
+    }
+  else
+    require('telescope.builtin').find_files()
+  end
+end
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -453,7 +534,8 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+-- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sf', find_files_git_root, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', ':Telescope ast_grep<CR>', { desc = '[S]earch by AST [G]rep' })
@@ -537,7 +619,8 @@ vim.filetype.add {
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
+local on_attach = function(event)
+  local bufnr = event.buf
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
@@ -553,7 +636,7 @@ local on_attach = function(_, bufnr)
   end
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>w', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>ww', vim.lsp.buf.code_action, '[C]ode [A]ction')
   -- nmap('<leader>w', ':Lspsaga code_action<cr>', '[C]ode [A]ction')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
@@ -581,6 +664,10 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = on_attach,
+})
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -591,7 +678,7 @@ local servers = {
   --   format = { enable = true },
   -- },
   -- graphql = {},
-  tsserver = {},
+  ts_ls = {},
   -- prismals = {},
   jsonls = {
     format = { enable = false },
@@ -607,9 +694,6 @@ local servers = {
   },
 }
 
--- Setup neovim lua configuration
-require('neodev').setup()
-
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -621,15 +705,15 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-    }
-  end,
-}
+-- mason_lspconfig.setup {
+--   function(server_name)
+--     require('lspconfig')[server_name].setup {
+--       capabilities = capabilities,
+--       on_attach = on_attach,
+--       settings = servers[server_name],
+--     }
+--   end,
+-- }
 
 -- require('lspconfig').relay_lsp.setup {
 --   capabilities = capabilities,
