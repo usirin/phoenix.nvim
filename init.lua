@@ -22,10 +22,9 @@ require('lazy').setup {
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-
   {
     'projekt0n/github-nvim-theme',
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- require('github-theme').setup {
@@ -45,13 +44,13 @@ require('lazy').setup {
     -- See `:help indent_blankline.txt`
     main = 'ibl',
     opts = {
-      indent = { char = '┊', tab_char = '▎' },
+      indent = { char = '┊', tab_char = '┊' },
       -- scope = { show_start = false },
     },
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',   opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   {
     -- Highlight, edit, and navigate code
