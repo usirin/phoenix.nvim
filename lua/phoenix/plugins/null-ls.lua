@@ -6,7 +6,19 @@ return {
 
     local sources = {
       -- formatting
-      b.formatting.prettierd,
+      -- b.formatting.prettierd,
+      b.formatting.biome.with {
+        command = 'biome',
+        args = {
+          'format',
+          '--stdin-file-path',
+          '$FILENAME',
+        },
+        condition = function(utils)
+          return utils.root_has_file { 'biome.jsonc' }
+        end,
+      },
+
       b.formatting.stylua.with {
         condition = function(utils)
           return utils.root_has_file { 'stylua.toml', '.stylua.toml' }
