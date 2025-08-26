@@ -1,4 +1,4 @@
-local keymap = require 'phoenix.utils.keymap'
+local map = require 'phoenix.utils.keymap'
 
 return {
   'nvim-neo-tree/neo-tree.nvim',
@@ -13,25 +13,23 @@ return {
       name = 'window-picker',
       event = 'VeryLazy',
       version = '2.*',
-      config = function()
-        require('window-picker').setup {
-          hint = 'statusline-winbar',
-          selection_chars = 'arstgmneiodh',
+      opts = {
+        hint = 'statusline-winbar',
+        selection_chars = 'arstgmneiodh',
 
-          autoselect_one = true,
-          include_current_win = false,
-          filter_rules = {
-            bo = {
-              -- if the file type is one of following, the window will be ignored
-              filetype = { 'neo-tree', 'neo-tree-popup', 'notify' },
+        autoselect_one = true,
+        include_current_win = false,
+        filter_rules = {
+          bo = {
+            -- if the file type is one of following, the window will be ignored
+            filetype = { 'neo-tree', 'neo-tree-popup', 'notify' },
 
-              -- if the buffer type is one of following, the window will be ignored
-              buftype = { 'terminal', 'quickfix' },
-            },
+            -- if the buffer type is one of following, the window will be ignored
+            buftype = { 'terminal', 'quickfix' },
           },
-          -- other_win_hl_color = '#e35e4f',
-        }
-      end,
+        },
+        -- other_win_hl_color = '#e35e4f',
+      },
     },
   },
   config = function()
@@ -47,7 +45,7 @@ return {
         cwd_target = {
           sidebar = 'window',
           current = 'window',
-          float = "window"
+          float = 'window',
         },
         window = {
           mappings = {
@@ -57,9 +55,9 @@ return {
       },
     }
 
-    keymap('n', '<leader>kk', ':Neotree toggle reveal_force_cwd position=float<cr>')
-    keymap('n', '<leader>kc', ':Neotree toggle position=current<cr>')
-    keymap('n', '<leader>kb', ':Neotree toggle reveal position=left<cr>')
-    keymap('n', '<leader>kq', ':Neotree close<cr>')
+    map('n', '<leader>kk', ':Neotree toggle reveal_force_cwd position=float<cr>')
+    map('n', '<leader>kc', ':Neotree toggle position=current<cr>')
+    map('n', '<leader>kb', ':Neotree toggle reveal position=left<cr>')
+    map('n', '<leader>kq', ':Neotree close<cr>')
   end,
 }

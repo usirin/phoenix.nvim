@@ -1,6 +1,5 @@
 local fish_like_path = require 'phoenix.utils.fish_like_path'
 
-
 local file_status = function(is_modified)
   if is_modified then
     return '·'
@@ -21,7 +20,6 @@ local fishpath = function(level)
     return path .. ' ' .. status
   end
 end
-
 
 vim.cmd [[
 autocmd ColorScheme * lua require'phoenix.plugins.lualine'.config()

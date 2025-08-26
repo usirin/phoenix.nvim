@@ -61,12 +61,6 @@ require('lazy').setup {
     build = ':TSUpdate',
   },
 
-  -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-  --       These are some example plugins that I've included in the kickstart repository.
-  --       Uncomment any of the lines below to enable them.
-  require 'kickstart.plugins.autoformat',
-  require 'kickstart.plugins.debug',
-
   -- NOTE: These are the plugins added by phoenix.nvim community.
   { import = 'phoenix.plugins' },
 }

@@ -22,7 +22,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     { 'nvim-telescope/telescope-ui-select.nvim' },
 
     -- Useful for getting pretty icons, but requires a Nerd Font.
-    { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
   config = function()
     require('telescope').setup {
@@ -41,8 +41,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
       extensions = {
         fzf = {
           override_generic_sorter = true, -- override the generic sorter
-          override_file_sorter = true,    -- override the file sorter
-          case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+          override_file_sorter = true, -- override the file sorter
+          case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
         },
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
@@ -64,7 +64,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     map('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     map('n', '<leader>?', builtin.oldfiles, { desc = 'Search Recent Files' })
     map('n', '<leader>b', builtin.buffers, { desc = '[ ] Find existing buffers' })
-    map('n', '<leader>gs', require('telescope.builtin').git_status, { desc = '[G]it [S]tatus' })
+    map('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus' })
 
     -- Slightly advanced example of overriding default behavior and theme
 
