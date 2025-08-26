@@ -1,17 +1,17 @@
-local checkers = {}
+local M = {}
 
 -- Helper function to check if value passed by parameter is a table
 -- @obj {table}
 -- @returns {boolean}
-checkers.is_table = function(obj)
-  return type(obj) == "table"
+M.is_table = function(obj)
+  return type(obj) == 'table'
 end
 
 -- Verify if table object works as an array
 -- @param obj {table}
 -- @return {boolean}
-checkers.is_array = function(obj)
-  if not checkers.is_table(obj) then
+M.is_array = function(obj)
+  if not M.is_table(obj) then
     return false
   end
 
@@ -29,15 +29,15 @@ end
 -- Checks wether value is nil
 -- @obj {any}
 -- @returns {boolean}
-checkers.is_nil = function(value)
+M.is_nil = function(value)
   return value == nil
 end
 
 -- Checks if parameter is an empty table
 -- @param obj {table}
 -- @return {boolean}
-checkers.is_empty = function(obj)
-  return checkers.is_array(obj) and #obj == 0
+M.is_empty = function(obj)
+  return M.is_array(obj) and #obj == 0
 end
 
-return checkers
+return M

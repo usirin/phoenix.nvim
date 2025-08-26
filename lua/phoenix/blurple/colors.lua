@@ -1,6 +1,6 @@
 local M = {}
 
-M.palette = {
+M.colors = {
   ['red.100'] = '#fef8f9',
   ['red.130'] = '#fef4f4',
   ['red.160'] = '#feeaea',
@@ -289,6 +289,13 @@ M.palette = {
   ['plum.24'] = '#0f1015',
   ['plum.25'] = '#0c0c10',
   ['plum.26'] = '#08080b',
+}
+
+M.themes = {}
+
+M.themes.darker = {
+  bg_primary = M.colors['plum.20'],
+  bg_secondary = M.colors['plum.18'],
 }
 
 return M
