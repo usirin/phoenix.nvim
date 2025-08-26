@@ -84,15 +84,15 @@ M.setup = function(is_vscode)
   vim.o.foldlevelstart = 99 -- start unfolded
   vim.o.foldminlines = 1
 
+  if is_vscode then
+    return
+  end
+
   vim.filetype.add {
     extension = {
       mdx = 'markdown.mdx',
     },
   }
-
-  if is_vscode then
-    return
-  end
 
   auto.group('QuickfixKeybinds', { clear = true })
   auto.cmd('Filetype', {
