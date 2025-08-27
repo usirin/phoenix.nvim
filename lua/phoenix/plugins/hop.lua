@@ -1,9 +1,11 @@
+local map = require 'phoenix.utils.keymap'
+
 return {
-  "phaazon/hop.nvim",
+  'smoka7/hop.nvim',
+  opts = {
+    keys = 'arstgmneiodh',
+  },
   config = function()
-    require("hop").setup {
-      keys = "arstgmneiodh",
-    }
-    vim.keymap.set("n", "<C-e>", "<cmd>lua require'hop'.hint_words()<cr>", { noremap = true, silent = true })
-  end
+    map('n', '<C-e>', "<cmd>lua require'hop'.hint_words()<cr>", { noremap = true, silent = true })
+  end,
 }
