@@ -1,8 +1,15 @@
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
+local is_vscode = vim.g.vscode
+
 require('phoenix.keymaps').setup()
+
 require('phoenix.defaults').setup(vim.g.vscode)
+
+if is_vscode then
+  return
+end
 
 require 'setup_lazy'
 
@@ -20,11 +27,21 @@ require('lazy').setup {
       --   -- ...
       -- }
       --
-      -- vim.cmd 'colorscheme github_dark'
-      vim.cmd 'colorscheme github_dark_default'
-      vim.cmd [[highlight CursorLine guibg=#1c1d26]]
+      vim.cmd 'colorscheme github_dark'
+      -- vim.cmd 'colorscheme github_dark_default'
+      -- vim.cmd [[highlight CursorLine guibg=#1c1d26]]
     end,
   },
+
+  -- {
+  --   'wnkz/monoglow.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     vim.cmd 'colorscheme monoglow'
+  --   end,
+  -- },
 
   -- NOTE: import plugin specs
   { import = 'phoenix.plugins' },
