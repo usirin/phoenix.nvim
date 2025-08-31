@@ -36,7 +36,17 @@ return {
     -- Unless you are still migrating, remove the deprecated commands from v1.x
     vim.cmd [[ let g:neo_tree_remove_legacy_commands = 1 ]]
 
+    local function on_move(data)
+      Snacks.rename.on_rename_file(data.source, data.destination)
+    end
+    local events = require 'neo-tree.events'
+    local handlers = {
+      { event = events.FILE_MOVED, handler = on_move },
+      { event = events.FILE_RENAMED, handler = on_move },
+    }
+
     require('neo-tree').setup {
+      event_handlers = handlers,
       window = {
         position = 'left',
       },
