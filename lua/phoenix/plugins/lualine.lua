@@ -35,7 +35,7 @@ return {
       options = {
         icons_enabled = true,
         globalstatus = true,
-        -- theme = 'onedark',
+        theme = 'catppuccin',
         component_separators = '|',
         section_separators = '',
         -- theme = get_theme(vim.o.background),

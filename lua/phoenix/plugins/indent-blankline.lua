@@ -6,6 +6,6 @@ return {
   main = 'ibl',
   opts = {
     indent = { char = '┊', tab_char = '┊' },
-    -- scope = { show_start = false },
+    scope = { show_start = false },
   },
 }
